@@ -1,5 +1,6 @@
 import Aside from "../components/Aside";
-import VerneLogo from "../assets/images/verne-logo.svg";
+// import VerneLogo from "../assets/images/verne-logo.svg";
+import VerneLogo from "@/assets/images/verne-logo.svg";
 import Card from "../common/Card";
 import { Input } from "@material-tailwind/react";
 import Button from "../common/Button";
@@ -18,7 +19,7 @@ const Signup = () => {
         <img src={VerneLogo} alt="" className="ml-[40px]" />
       </div>
 
-      <main className="w-full h-[95vh] flex flex-col justify-center mx-auto bg-[#F0FAFF] my-10">
+      <main className="w-full h-[95vh] flex flex-col justify-center mx-auto bg-[#F0FAFF]">
         <div className="grid md:grid-cols-2">
           <div className="hidden lg:block">
             <Aside />
