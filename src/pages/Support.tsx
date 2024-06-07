@@ -70,7 +70,7 @@ const Support = (props: Props) => {
             {GROUP_CATEGORIES.map((groupTab, index) => (
               <div
                 className="relative cursor-pointer"
-                onClick={() => setSelectIndex(index)}
+                onClick={() => setSelected(index)}
               >
                 <p className={`mr-6`}>{groupTab.name}</p>
                 <div

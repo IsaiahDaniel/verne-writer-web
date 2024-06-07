@@ -1,5 +1,5 @@
 type ButtonProps = {
-  text: string;
+  text?: string;
   classNames?: string;
   bgcolor?: any;
   withIcon?: boolean;

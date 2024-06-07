@@ -10,9 +10,9 @@ import React, { useState } from "react";
 import { Input } from "@material-tailwind/react";
 
 const UserProfile = () => {
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
+  // const handleChange = (event: any) => {
+  //   setValue(event.target.value);
+  // };
 
   const [selectedIndex, setSelectIndex] = useState(0);
 

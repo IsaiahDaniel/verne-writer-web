@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function SelectableItem({ text, isSelected, onSelect }) {
+function SelectableItem({ text, isSelected, onSelect }: any) {
   const [selected, setSelected] = useState(isSelected);
 
   const handleClick = () => {

@@ -5,10 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { MdSearch } from "react-icons/md";
 import { useState } from "react";
 import AvatarJL, { JLAvatar } from "../../common/JLAvatar";
-import AvatarJS, { JSAvatar } from "../../common/JSAvatar";
+// import AvatarJS, { JSAvatar } from "../../common/JSAvatar";
 import AvatarMA, { MAAvatar } from "../../common/MAAvatar";
 import AvatarRS, { RSAvatar } from "../../common/RSAvatar"
-import AvatarSO, { SOAvatar } from "../../common/SOAvatar"
+// import AvatarSO, { SOAvatar } from "../../common/SOAvatar"
 
 const Notifications = () => {
   const navigate = useNavigate();
@@ -188,7 +188,7 @@ const Notifications = () => {
                       className="w-4 h-4 ml-6 mt-[25px] cursor-pointer"
                     />
                     <div className="ml-[10px] mt-[10px]">
-                      <JSAvatar />
+                      {/* <JSAvatar /> */} JSAvatar
                     </div>
                     <div className="flex flex-col ml-[20px] mt-[2px]">
                       <p className="text-sm font-medium text-[#131313] pt-[5px]">
@@ -352,7 +352,7 @@ const Notifications = () => {
                       className="w-4 h-4 ml-6 mt-[25px] cursor-pointer"
                     />
                     <div className="ml-[10px] mt-[10px]">
-                      <SOAvatar />
+                      {/* <SOAvatar /> */} SoAvatar
                     </div>
                     <div className="flex flex-col ml-[20px] mt-[2px]">
                       <p className="text-sm font-medium text-[#131313] pt-[5px]">

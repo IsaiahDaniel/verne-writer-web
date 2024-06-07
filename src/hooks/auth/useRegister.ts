@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { registerSchema } from "../../utils/validators/Auth.validators";
 import useLocalStorage from "../localStorage/useLocalStorage";
 import { useEffect } from "react";
+import { handleError } from "@/utils/helpers/handleError";
 
 const useRegister = () => {
 
@@ -36,6 +37,7 @@ const useRegister = () => {
         onError: (error: any) => {
             console.log("error Register 123", error);
             removeUser();
+            handleError(error);
         }
     });
 
