@@ -12,10 +12,9 @@ const useLogin = () => {
 
     const navigate = useNavigate();
     const { handleSubmit, register, formState: { errors } } = useForm<ILogin>({ resolver: zodResolver(loginSchema) });
-    const { setItem, getItem: getUserInfo } = useLocalStorage("userInfo");
+    const { setItem: setUser, getItem: getUserInfo } = useLocalStorage("userInfo");
     const { setItem: setToken, removeItem: removeUser } = useLocalStorage("token");
 
-    // const { user } = getUserInfo();
 
     const { mutate, isPending, isSuccess } = useMutation({
         mutationFn: (formData: any) => login(formData),
@@ -23,9 +22,9 @@ const useLogin = () => {
             console.log("login data", data);
             // const { data: registerData } = data;
             // console.log("registerData", registerData);
-            // setToken(registerData.data);
-            // navigate("/dashboard");
-            // toast.success(data.data.message);
+            setUser(data.data.data);
+            setToken(data.data.token);
+            navigate("/dashboard");
         },
         onError: (error: any) => {
             console.log("error login 123", error);
@@ -44,9 +43,12 @@ const useLogin = () => {
             },
         }
 
-        setItem(userInfo);
+        const siginInData = {
+            ...data,
+            identity: data.email
+        }
 
-        mutate(data);
+        mutate(siginInData);
     }
 
     return {

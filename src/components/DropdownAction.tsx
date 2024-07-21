@@ -5,6 +5,7 @@ import UserProfileIcon from "../assets/icons/UserProfileIcon";
 import SettingsIcon from "../assets/icons/SettingsIcon";
 import LogoutIcon from "../assets/icons/LogoutIcon";
 import SupportIcon from "../assets/icons/SupportIcon"
+import { clearAuth } from "@/services/AuthService";
 
 
 const DropdownAction = () => {
@@ -45,7 +46,15 @@ const DropdownAction = () => {
                 <button className="flex text-[#025077] w-100% h-100% bg-none text-center border-none p-[5px] text-sm font-medium" onClick={() => navigate("/support")}> <SupportIcon/> <span className="pl-[10px]">Support</span> </button>
             </li>
             <li className="menu-item">
-                <button className="flex text-[#025077] w-100% h-100% bg-none text-center border-none p-[5px] text-sm font-medium" onClick={() => navigate("/signin")}> <LogoutIcon /> <span className="pl-[10px]">Logout</span></button>
+                <button 
+                  className="flex text-[#025077] w-100% h-100% bg-none text-center border-none p-[5px] text-sm font-medium" 
+                  onClick={() => {
+                    navigate("/signin");
+                    clearAuth();
+                  }}
+                  > 
+                  <LogoutIcon /> <span className="pl-[10px]">Logout</span>
+                </button>
             </li>
       </ul>
       ) : null}

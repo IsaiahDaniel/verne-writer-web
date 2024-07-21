@@ -43,6 +43,6 @@ export function getUser(){
 }
 
 export function clearAuth (){
-        localStorage.removeItem('user');
+        localStorage.removeItem('userInfo');
         localStorage.removeItem('token');
 }
