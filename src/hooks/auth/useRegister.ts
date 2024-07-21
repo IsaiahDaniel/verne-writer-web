@@ -8,6 +8,7 @@ import { registerSchema } from "../../utils/validators/Auth.validators";
 import useLocalStorage from "../localStorage/useLocalStorage";
 import { useEffect } from "react";
 import { handleError } from "@/utils/helpers/handleError";
+import { toast } from "react-toastify";
 
 const useRegister = () => {
 
@@ -17,26 +18,33 @@ const useRegister = () => {
     const { setItem, getItem: getUserInfo } = useLocalStorage("userInfo");
     const { setItem: setToken, removeItem: removeUser } = useLocalStorage("token");
 
-    // const { user } = getUserInfo();
 
-    // useEffect(() => {
-    //     if (user) {
-    //         navigate("/onboarding");
-    //     }
-    // }, []);
+    useEffect(() => {
+        // const { user } = getUserInfo();
+        // // console.log("user", user);
+        // if (user) {
+        //     navigate("/onboarding");
+        // }
+        const userInfo = getUserInfo();
+        if (userInfo && userInfo.user) {
+            navigate("/onboarding");
+        }
+    }, []);
 
     const { mutate, isPending, isSuccess } = useMutation({
         mutationFn: (formData: IRegister) => signUp(formData),
         onSuccess: (data) => {
             console.log("data", data);
-            const { data: registerData } = data;
-            console.log("registerData", registerData);
-            setToken(registerData.data);
-            navigate("/verify", { state: registerData.data });
+            // const { data: registerData } = data;
+            // console.log("registerData", registerData);
+            // setToken(registerData.data);
+            navigate("/activate");
+            toast.success(data.data.message);
         },
         onError: (error: any) => {
-            console.log("error Register 123", error);
-            removeUser();
+            // console.log("error Register 123", error);
+            // removeUser();
+            // console.log("activation error", error);
             handleError(error);
         }
     });

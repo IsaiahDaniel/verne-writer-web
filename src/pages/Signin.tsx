@@ -19,51 +19,10 @@ import useLogin from "../hooks/auth/useLogin";
 const Signin = () => {
   const auth: any = useAuth();
   let navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
 
-  const register = useLogin();
-
-  console.log("register", register);
-
-  // const handleSubmit = () => {
-  //   if (!email) {
-  //     setErrEmail("Email is required");
-  //     return;
-  //   }
-  //   if (!password) {
-  //     setErrPassword("Password is required");
-  //     return;
-  //   }
-  //   setLoading(true);
-  //   const sendData = {
-  //     email: email,
-  //     password: password,
-  //   };
-  //   console.log(sendData);
-  //   login(sendData)
-  //     .then(async (response) => {
-  //       console.log(response);
-  //       if (response.data.success) {
-  //         toast.success(
-  //           response.data.message
-  //             ? response.data.message
-  //             : "Successfully Signed-In"
-  //         );
-  //         await saveUserInLocalStorage(response.data.user);
-  //         await saveTokenInLocalStorage(response.data.token);
-  //         setLoading(false);
-  //         auth?.signup(response.data.user);
-  //         navigate("/dashboard");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       console.log(err);
-  //     });
-  // };
-
-  console.log({ email, password });
+  const { errors, handleLogin, register, handleSubmit, isPending } = useLogin();
 
   return (
     <>    
@@ -71,7 +30,7 @@ const Signin = () => {
         <img src={VerneLogo} alt="" className="ml-[40px]" />
       </div>
       <main className="w-full h-[100%] mx-auto py-[49px] flex flex-col justify-center bg-[#F0FAFF]">
-        <section className="w-[50%] md:w-[40%] mx-auto my-10">
+        <form onSubmit={handleSubmit(handleLogin)} className="w-[50%] md:w-[40%] mx-auto my-10">
           <Card classNames="w-[90%]">
             <div className="mb-[20px]">
               <h2 className="text-[#131313] text-center py-2 text-[36px] font-normal">
@@ -87,30 +46,31 @@ const Signin = () => {
               <div className="w-full mb-[20px]">
                 <Input
                   label="Email"
-                  value={email}
-                  onChange={(e: React.FormEvent) => setEmail((e.target as any).value)}
+                  
+                  {...register("email", { required: true })}
+                  
                 />
-                {/* {errEmail && <div className="text_error">{errEmail}</div>} */}
+                 {errors.email && <div className="text-red-400 text-xs">{errors.email.message}</div>}
               </div>
 
               <div className="w-full mb-[20px]">
                 <Input
                   label="Password"
-                  value={password}
-                  onChange={(e: React.FormEvent) => setPassword((e.target as any).value)}
+                  {...register("password", { required: true })}
                 />
-                {/* {(errPassword) && <div className='text_error'>{errPassword}</div>} */}
-                <small className="text-[#006969] text-sm font-medium mb-3">
+                {errors.password && <div className="text-red-400 text-xs">{errors.password.message}</div>}
+                <small className="text-[#006969] text-sm font-medium mt-10 mb-3">
                   Forgot Password?
                 </small>
               </div>
 
               <div className="mt-3">
                 <Button
-                  text="Sign In"
+                  text={isPending ? "loading..." : "Sign In"}
                   // bgcolor="#025077"
                   classNames="bg-[#025077] text-white"
-                  disabled={!email || !password}
+                  disabled={isPending}
+                  type="submit"
                 />
               </div>
 
@@ -146,7 +106,7 @@ const Signin = () => {
               </Link>
             </div>
           </Card>
-        </section>
+        </form>
       </main>
     </>
   );

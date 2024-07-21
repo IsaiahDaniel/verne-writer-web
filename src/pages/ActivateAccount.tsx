@@ -9,10 +9,14 @@ import EmailFeedback from "../assets/images/feedback-image.png";
 import Button from "../common/Button";
 import Card from "../common/Card";
 import useActivateAccount from "../hooks/auth/useActivateAccount";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const ActivateAccount = () => {
 
-  const { isPending, handleSubmit, activateAccount, register, errors } = useActivateAccount();
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('token') as string;
+  // console.log("token", token);
+  const { isPending, handleSubmit, activateAccount, register, errors } = useActivateAccount(token);
 
   return (
     <main className="w-full flex flex-col items-center justify-center h-screen mx-auto py-[49px] bg-[#F0FAFF]">
@@ -27,7 +31,7 @@ const ActivateAccount = () => {
               variant="h4"
               sx={{
                 fontSize: { md: "36px", xs: "15px" },
-                textAlign: { md: "center" },
+                textAlign: { xs: "center", md: "center" },
                 fontWeight: { md: "400" },
               }}
             >
@@ -64,16 +68,17 @@ const ActivateAccount = () => {
                 fontSize: { xs: "18px", md: "24px" },
               }}
             >
-              <div>
+              {/* <div>
                 <Input
                   {...register("code")}
                 />
-              </div>
+              </div> */}
               <span className="text-red-500 text-xs">{errors.code && errors.code.message}</span>
             </Typography>
 
             <Button
-              text={isPending ? "Loading..." : "Create Account"}
+              // text={isPending ? "Loading..." : "Create Account"}
+              text={isPending ? "Loading" : "Verify"}
               classNames="bg-[#025077] text-white py-3 mt-5"
               disabled={isPending}
               type="submit"

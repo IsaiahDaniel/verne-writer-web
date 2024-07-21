@@ -1,47 +1,15 @@
-import { useState } from "react";
 import VerneLogo from "../assets/images/Verne20.png";
 import Card from "../common/Card";
 import Pills from "../components/Pills";
 import Button from "../common/Button";
-import Input from "../common/Input";
-
-type TabType = "category" | "username" | "subscribers";
+// import Input from "../common/Input";
+import useCompleteOnboarding from "@/hooks/auth/useCompleteOnboarding";
+import { Input } from "@material-tailwind/react";
 
 const Onboarding = () => {
-  const PILLS = [
-    { id: 1, text: "Politics" },
-    { id: 2, text: "Fiction" },
-    { id: 3, text: "Religion" },
-    { id: 4, text: "Non-fiction" },
-    { id: 5, text: "Technology" },
-    { id: 6, text: "Art" },
-    { id: 7, text: "Business" },
-    { id: 8, text: "Romance" },
-  ];
 
-  const [preferences, setPreferences] = useState<any>([]);
-  const [selectedIndex, setSelectedIndex] = useState<TabType>("category");
-  const [subscribers, setSubscribers] = useState([
-    { id: 1, placeholder: "Subscriber Email" },
-  ]);
+  const { PILLS, addSubscriber, handlePillClick, handleSubmit, handleInputChange, isPending, isSuccess, errors, register, selectedIndex, setSelectedIndex, preferences, setPreferences, handleCompleteProfile, subscribers } = useCompleteOnboarding();
 
-  const handlePillClick = (pillText: string) => {
-    if (!preferences.includes(pillText)) {
-      setPreferences((prevPreferences: any) => [...prevPreferences, pillText]);
-    }else {
-      const filteredPills = preferences.filter((item: string) => item != pillText)
-      setPreferences(filteredPills);
-    }
-  };
-
-  const addSubscriber = () => {
-    const newSubscriber = {
-      id: subscribers.length + 1,
-      placeholder: "Subscriber Email",
-    };
-
-    setSubscribers([...subscribers, newSubscriber]);
-  };
 
   return (
     <main className="w-full mx-auto py-10 bg-[#F0FAFF]">
@@ -49,27 +17,24 @@ const Onboarding = () => {
         <img src={VerneLogo} alt="" className="w-[115px] ml-[50px]" />
       </div>
 
-      <div className="flex flex-col items-center justify-center h-[80vh]">
+      <form onSubmit={handleSubmit(handleCompleteProfile)} className="flex flex-col items-center justify-center h-[80vh]">
         <div className="w-[90%] md:w-[40%] mb-4">
           <div className="flex items-center justify-between">
             <div
-              className={`${
-                selectedIndex === "category" ? `bg-[#006969]` : `bg-[#F0F0F0]`
-              } h-3 w-[150px] cursor-pointer`}
+              className={`${selectedIndex === "category" ? `bg-[#006969]` : `bg-[#F0F0F0]`
+                } h-3 w-[150px] cursor-pointer`}
               onClick={() => setSelectedIndex("category")}
             />
             <div
-              className={`${
-                selectedIndex === "username" ? `bg-[#006969]` : `bg-[#F0F0F0]`
-              } h-3 w-[150px] cursor-pointer`}
+              className={`${selectedIndex === "username" ? `bg-[#006969]` : `bg-[#F0F0F0]`
+                } h-3 w-[150px] cursor-pointer`}
               onClick={() => setSelectedIndex("username")}
             />
             <div
-              className={`${
-                selectedIndex === "subscribers"
+              className={`${selectedIndex === "subscribers"
                   ? `bg-[#006969]`
                   : `bg-[#F0F0F0]`
-              } h-3 w-[150px] cursor-pointer`}
+                } h-3 w-[150px] cursor-pointer`}
               onClick={() => setSelectedIndex("subscribers")}
             />
           </div>
@@ -117,8 +82,17 @@ const Onboarding = () => {
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-3 mt-4 cursor-pointer">
-              <Input placeholder="Username" />
-              <Input placeholder="domain" />
+              {/* <Input placeholder="Username" /> */}
+              <div className="flex-1">
+                <Input
+                  label="Username"
+                  {...register("username", { required: true })}
+                  error={errors.username ? true : false}
+                />
+              </div>
+              <div className="flex-1">
+                <Input label="Domain" placeholder="domain" value={".com"} />
+              </div>
             </div>
 
             <div className="mt-4 space-y-2">
@@ -144,18 +118,21 @@ const Onboarding = () => {
               <p>Select categories you are interested in</p>
             </div>
 
-            <>
+            <div className="space-y-3 mt-5">
               {subscribers.map((subscriber) => (
                 <Input
                   key={subscriber.id}
                   placeholder={subscriber.placeholder}
+                  label={subscriber.label}
+                  value={subscriber.value}
+                  onChange={(e) => handleInputChange(subscriber.id, e.target.value)}
                 />
               ))}
-            </>
+            </div>
 
             <button
               onClick={addSubscriber}
-              className="flex items-center bg-[#131313] py-1 px-3"
+              className="flex items-center bg-[#131313] py-1 px-3 mt-5"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -175,19 +152,21 @@ const Onboarding = () => {
             <div className="mt-4 space-y-2">
               <Button
                 text="Submit"
+                // type="submit"
+                type="submit"
                 bgcolor="#025077"
                 classNames="bg-[#025077] text-white"
               />
-              <Button
+              {/* <Button
                 text="Skip to Next Step"
                 // bgcolor="#767676"
                 classNames="text-black font-bold bg-[#f0f0f0]"
                 onClick={() => setSelectedIndex("username")}
-              />
+              /> */}
             </div>
           </Card>
         )}
-      </div>
+      </form>
     </main>
   );
 };

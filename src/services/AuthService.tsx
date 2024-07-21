@@ -1,7 +1,7 @@
 import axios from '../axiosinstance';
-import { IAuth } from '../interfaces/IAuth';
+import { ILogin } from '../interfaces/IAuth';
 
-export function signUp(formData: IAuth){
+export function signUp(formData: ILogin){
 
         const { email, password } = formData;
 
@@ -10,15 +10,19 @@ export function signUp(formData: IAuth){
                 password,
         }
 
-        return axios.post('/signup', postData)
+        return axios.post('/web/sign-up', postData)
 }
 
 export function signUp2(data: any){
-        return axios.post('/signup2fa', data)
+        return axios.post('/verify', data)
 }
 
 export function login(data: any){
         return axios.post('/login', data)
+}
+
+export function completeOnboarding(data: any){
+        return axios.post('/web/complete-profile', data)
 }
 
 export function saveTokenInLocalStorage(token: any){
