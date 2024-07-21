@@ -151,7 +151,7 @@ const Onboarding = () => {
 
             <div className="mt-4 space-y-2">
               <Button
-                text="Submit"
+                text={isPending ? "loading..." : "Submit"}
                 // type="submit"
                 type="submit"
                 bgcolor="#025077"
