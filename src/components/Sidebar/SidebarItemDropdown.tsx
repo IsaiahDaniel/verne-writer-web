@@ -18,7 +18,7 @@ const SidebarItemDropdown = ({ Icon, items, menu }: SidebarItemDropDown) => {
 
   const linksArr = items.map((link: any) => link.to);
 
-  console.log("linksArr", linksArr.includes(currentUrl));
+  // console.log("linksArr", linksArr.includes(currentUrl));
 
   return (
     <div

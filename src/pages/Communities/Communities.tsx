@@ -6,9 +6,13 @@ import { MdSearch } from "react-icons/md";
 import { MdExpandMore } from "react-icons/md";
 import GroupImage from "../../assets/images/group-image.svg";
 import Avatar, { AvatarInitials } from "../../common/Avatar";
+import useGetCommunities from "@/hooks/community/useGetCommunities";
+import Loader from "@/components/loaders/Loader";
+import NetworkError from "@/components/error/NetworkError";
+import { error } from "console";
 
 const Communities = () => {
-  const navigate = useNavigate();
+  
 
   const COMMUNITIES = [
     {
@@ -46,6 +50,8 @@ const Communities = () => {
       desc: "We inform citizens on political drama and upheavals through our creative enterprise",
     },
   ];
+
+  const { data: communities, navigate, isPending, isError, error, refetch } = useGetCommunities();
 
   return (
     <Layout>
@@ -124,8 +130,12 @@ const Communities = () => {
           </div>
         </div>
 
-        {COMMUNITIES.map((community) => (
-          <div className="bg-white px-4 py-4 my-5">
+        { isPending &&  <div className="mt-32"> <Loader /> </div>  }
+
+        { isError && <NetworkError error={error} refetch={refetch} /> }
+
+        {communities?.data?.map((community: any) => (
+          <div className="bg-white px-4 py-4 my-5" key={community._id}>
             <div className="flex items-center justify-between">
               <div className="flex">
                 <img src={community.image} className="mr-3" />
@@ -135,16 +145,16 @@ const Communities = () => {
                       className="text-base text-[#005454] font-medium cursor-pointer"
                       onClick={() => navigate("/community-details")}
                     >
-                      {community.title}
+                      {community.name}
                     </h2>
                   </Link>
                   <p className="text-sm font-normal text-[#767676]">
-                    {community.desc}
+                    {community.description}
                   </p>
                   <div className="flex items-center">
                     <p className="mr-3 text-sm font-normal">
                       <span className="text-[#767676]">Created By:</span>{" "}
-                      {community.created_by}
+                      {community.creator._id}
                     </p>
                     <div className="flex items-center">
                       <span>
@@ -161,7 +171,7 @@ const Communities = () => {
                 <Button
                   classNames="bg-[#025077] px-5 text-white"
                   text="Join Now"
-                  onClick={() => navigate("/communities/join/1")}
+                  onClick={() => navigate(`/communities/join/${community._id}`)}
                 />
               </div>
             </div>

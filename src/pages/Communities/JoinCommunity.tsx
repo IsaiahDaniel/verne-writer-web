@@ -5,144 +5,102 @@ import Avatar, { AvatarInitials } from "../../common/Avatar";
 import AvatarJH, { JHAvatar } from "../../common/JHAvatar";
 import ReplyIcon from "../../assets/icons/ReplyIcon";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
+import useGetCommunity from "@/hooks/community/useGetCommunity";
+import Loader from "@/components/loaders/Loader";
+import NetworkError from "@/components/error/NetworkError";
 
 const JoinCommunity = () => {
-  const navigate = useNavigate();
 
-  const [selectedIndex, setSelectIndex] = useState(0);
+  const { id } = useParams();
+  const { data: community, GROUP_CATEGORIES, error, isError, isPending, navigate, selectedIndex, setSelectIndex, COMMUNITY_GROUPS, COMMUNITY_RULES, refetch } = useGetCommunity(id as string);
 
-  const GROUP_CATEGORIES = [
-    { id: 1, name: "Discussion" },
-    { id: 2, name: "Rules" },
-    { id: 3, name: "Members" },
-  ];
-
-  const COMMUNITY_GROUPS = [
-    {
-      id: 1,
-      title: "Why is there so much persecution of brethren worldwide?",
-      created_by: "John Hughes",
-      people: "John Gboyega & 122 others are members",
-      desc: "Lorem ipsum dolor sit amet consectetur. Ullamcorper tincidunt eu consequat risus pellentesque massa erat proin. Quis amet amet proin sit mauris a vehicula tortor. Urna ut tincidunt lacus ante. Sit id posuere aliquet volutpat diam maecenas a a.",
-      published_date: "11/9/2023",
-      joinLink: "11:09PM",
-    },
-    {
-      id: 2,
-      title: "Why is there so much persecution of brethren worldwide?",
-      created_by: "John Hughes",
-      people: "John Gboyega & 122 others are members",
-      desc: "Lorem ipsum dolor sit amet consectetur. Ullamcorper tincidunt eu consequat risus pellentesque massa erat proin. Quis amet amet proin sit mauris a vehicula tortor. Urna ut tincidunt lacus ante. Sit id posuere aliquet volutpat diam maecenas a a.",
-    },
-  ];
-
-  const COMMUNITY_RULES = [
-    {
-      id: 1,
-      title: "Respect",
-      desc: "Avoid discriminatory or offensive language, including hate speech, slurs, and insults.",
-      summary:
-        "Words have the power to build bridges or burn them. In our writing community, we strive to create a space where everyone feels welcome, respected, and valued. This means fostering an environment free from discriminatory or offensive language, including hate speech, slurs, and insults.",
-    },
-    {
-      id: 2,
-      title: "Privacy",
-      desc: "Maintain confidentiality and avoid sharing personal information about other members without their consent.",
-      summary:
-        "Maintaining confidentiality allows members to feel safe and comfortable sharing their work and participating in discussions. It fosters an environment of trust and respect, where everyone feels valued and protected.",
-    },
-    {
-      id: 3,
-      title: "Professionalism",
-      desc: "Engage in constructive criticism and feedback, focusing on the work itself and avoiding personal attacks.",
-      summary:
-        "Constructive criticism is a valuable tool for growth, but it should always be delivered with respect and empathy. By focusing on the work itself and offering actionable suggestions, we can create a supportive environment where everyone feels comfortable sharing their work and learning from each other.",
-    },
-  ];
 
   return (
     <Layout>
       <main>
-        <div className="gradient-community-bg md:h-[100px] lg:h-[200px] w-full">
-          <div className="flex items-center ml-10 relative">
-            {/* absolute top-20 */}
-            <div>
-              <div className="border border-white rounded-full p-10 bg-[#006969] absolute top-20">
-                <img src={CommunityLogo} alt="" />
-              </div>
-              <div className="absolute left-56 top-20 text-white space-y-2">
-                <div>
-                  <div className="flex items-center space-x-3">
-                    <span>Home</span>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="10"
-                        height="11"
-                        viewBox="0 0 10 11"
-                        fill="none"
-                      >
-                        <path
-                          d="M3.30828 1.52235C3.19111 1.63955 3.12529 1.79849 3.12529 1.96422C3.12529 2.12995 3.19111 2.28889 3.30828 2.4061L6.40203 5.49985L3.30828 8.5936C3.19443 8.71147 3.13143 8.86935 3.13286 9.03322C3.13428 9.1971 3.20001 9.35385 3.31589 9.46973C3.43177 9.58561 3.58853 9.65134 3.7524 9.65277C3.91628 9.65419 4.07415 9.59119 4.19203 9.47735L7.72765 5.94172C7.84482 5.82452 7.91064 5.66557 7.91064 5.49985C7.91064 5.33412 7.84482 5.17518 7.72765 5.05797L4.19203 1.52235C4.07482 1.40518 3.91588 1.33936 3.75015 1.33936C3.58443 1.33936 3.42548 1.40518 3.30828 1.52235Z"
-                          fill="#767676"
-                        />
-                      </svg>
-                    </div>
-                    <span>Community</span>
-                    <div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="10"
-                        height="11"
-                        viewBox="0 0 10 11"
-                        fill="none"
-                      >
-                        <path
-                          d="M3.30828 1.52235C3.19111 1.63955 3.12529 1.79849 3.12529 1.96422C3.12529 2.12995 3.19111 2.28889 3.30828 2.4061L6.40203 5.49985L3.30828 8.5936C3.19443 8.71147 3.13143 8.86935 3.13286 9.03322C3.13428 9.1971 3.20001 9.35385 3.31589 9.46973C3.43177 9.58561 3.58853 9.65134 3.7524 9.65277C3.91628 9.65419 4.07415 9.59119 4.19203 9.47735L7.72765 5.94172C7.84482 5.82452 7.91064 5.66557 7.91064 5.49985C7.91064 5.33412 7.84482 5.17518 7.72765 5.05797L4.19203 1.52235C4.07482 1.40518 3.91588 1.33936 3.75015 1.33936C3.58443 1.33936 3.42548 1.40518 3.30828 1.52235Z"
-                          fill="#767676"
-                        />
-                      </svg>
-                    </div>
-                    <span>communities</span>
-                  </div>
-                  <h2 className="text-[30px]">Gospel Writers</h2>
-                  <p>
-                    Created By:{" "}
-                    <span className="underline underline-white">
-                      John Huges
-                    </span>
-                  </p>
+
+        { isPending && <Loader /> }
+
+        { isError && <NetworkError error={error} refetch={refetch} /> }
+
+        { !isPending && community?.data && (
+          <div className="gradient-community-bg md:h-[100px] lg:h-[200px] w-full">
+            <div className="flex items-center ml-10 relative">
+              {/* absolute top-20 */}
+              <div>
+                <div className="border border-white rounded-full p-10 bg-[#006969] absolute top-20">
+                  <img src={CommunityLogo} alt="" />
                 </div>
-                <div className="text-black w-[60%]">
-                  <h2 className="font-medium text-[24px] mt-10 mb-2">
-                    Description
-                  </h2>
-                  <p className="text-justify">
-                    Lorem ipsum dolor sit amet consectetur. At enim aliquet
-                    morbi mauris purus convallis duis erat. At ultrices mi
-                    viverra euismod faucibus pellentesque mi pulvinar.
-                    Adipiscing posuere sagittis ornare dolor vestibulum. Nisl
-                    feugiat quis vulputate vitae volutpat nulla et.
-                  </p>
-                  <div className="flex items-center py-2">
-                    <AvatarInitials />
-                    <p className="ml-2 text-[#131313] font-medium">
-                      John Gboyega & 122 others are members
+                <div className="absolute left-56 top-20 text-white space-y-2">
+                  <div>
+                    <div className="flex items-center space-x-3">
+                      <span>Home</span>
+                      <div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="10"
+                          height="11"
+                          viewBox="0 0 10 11"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.30828 1.52235C3.19111 1.63955 3.12529 1.79849 3.12529 1.96422C3.12529 2.12995 3.19111 2.28889 3.30828 2.4061L6.40203 5.49985L3.30828 8.5936C3.19443 8.71147 3.13143 8.86935 3.13286 9.03322C3.13428 9.1971 3.20001 9.35385 3.31589 9.46973C3.43177 9.58561 3.58853 9.65134 3.7524 9.65277C3.91628 9.65419 4.07415 9.59119 4.19203 9.47735L7.72765 5.94172C7.84482 5.82452 7.91064 5.66557 7.91064 5.49985C7.91064 5.33412 7.84482 5.17518 7.72765 5.05797L4.19203 1.52235C4.07482 1.40518 3.91588 1.33936 3.75015 1.33936C3.58443 1.33936 3.42548 1.40518 3.30828 1.52235Z"
+                            fill="#767676"
+                          />
+                        </svg>
+                      </div>
+                      <span>Community</span>
+                      <div>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="10"
+                          height="11"
+                          viewBox="0 0 10 11"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.30828 1.52235C3.19111 1.63955 3.12529 1.79849 3.12529 1.96422C3.12529 2.12995 3.19111 2.28889 3.30828 2.4061L6.40203 5.49985L3.30828 8.5936C3.19443 8.71147 3.13143 8.86935 3.13286 9.03322C3.13428 9.1971 3.20001 9.35385 3.31589 9.46973C3.43177 9.58561 3.58853 9.65134 3.7524 9.65277C3.91628 9.65419 4.07415 9.59119 4.19203 9.47735L7.72765 5.94172C7.84482 5.82452 7.91064 5.66557 7.91064 5.49985C7.91064 5.33412 7.84482 5.17518 7.72765 5.05797L4.19203 1.52235C4.07482 1.40518 3.91588 1.33936 3.75015 1.33936C3.58443 1.33936 3.42548 1.40518 3.30828 1.52235Z"
+                            fill="#767676"
+                          />
+                        </svg>
+                      </div>
+                      <span>communities</span>
+                    </div>
+                    <h2 className="text-[30px]">{community.data.name}</h2>
+                    <p>
+                      Created By:{" "}
+                      <span className="underline underline-white">
+                        John Huges
+                      </span>
                     </p>
                   </div>
-                  <div className="w-[20%] mt-3">
-                    <Button
-                      text="Join Now"
-                      classNames="bg-[#025077] px-3 text-white"
-                    />
+                  <div className="text-black w-full">
+                    <h2 className="font-medium text-[24px] mt-10 mb-2">
+                      Description
+                    </h2>
+                    <p className="text-justify">
+                      {community.description}
+                    </p>
+                    <div className="flex items-center py-2">
+                      <AvatarInitials />
+                      <p className="ml-2 text-[#131313] font-medium">
+                        John Gboyega & 122 others are members
+                      </p>
+                    </div>
+                    <div className="w-[40%] mt-3">
+                      <Button
+                        text="Join Now"
+                        classNames="bg-[#025077] px-3 text-white"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        ) }
 
         <section className="mt-[300px] mx-5 border-b-[#CDCDCD] border-b py-3 space-x-5">
           <div className="flex items-center">

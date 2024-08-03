@@ -5,20 +5,11 @@ import Avatar, { AvatarInitials } from "../../common/Avatar";
 import AvatarJH, { JHAvatar } from "../../common/JHAvatar";
 import Edit from "../../assets/images/edit.svg";
 import DescEdit from "../../assets/images/Desc_Edit.svg";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
-import { Link, useNavigate } from "react-router-dom";
+import useGetCommunity from "@/hooks/community/useGetCommunity";
 
 const CommunityDetails = () => {
-  const navigate = useNavigate();
 
-  const [selectedIndex, setSelectIndex] = useState(0);
-
-  const GROUP_CATEGORIES = [
-    { id: 1, name: "Discussion" },
-    { id: 2, name: "Rules" },
-    { id: 3, name: "Members" },
-  ];
+  const { GROUP_CATEGORIES, data: community, error, isError, isPending, navigate, selectedIndex, setSelectIndex } = useGetCommunity();
 
   return (
     <Layout>
@@ -63,7 +54,7 @@ const CommunityDetails = () => {
                         />
                       </svg>
                     </div>
-                    <span>Gospel Writers</span>
+                    <span>{community.data.name}</span>
                   </div>
                   <div className="flex">
                     <h2 className="text-[30px] mr-[10px]">Gospel Writers</h2>

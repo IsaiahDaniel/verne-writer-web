@@ -15,6 +15,7 @@ import {
 import { toast } from "react-toastify";
 import useRegister from "../hooks/auth/useRegister";
 import useLogin from "../hooks/auth/useLogin";
+import useGoogleLogin from "@/hooks/auth/useGoogleLogin";
 
 const Signin = () => {
   const auth: any = useAuth();
@@ -23,6 +24,7 @@ const Signin = () => {
   // const [password, setPassword] = useState("");
 
   const { errors, handleLogin, register, handleSubmit, isPending } = useLogin();
+  const { handleGoogleLogin } = useGoogleLogin();
 
   return (
     <>    
@@ -46,9 +48,7 @@ const Signin = () => {
               <div className="w-full mb-[20px]">
                 <Input
                   label="Email"
-                  
                   {...register("email", { required: true })}
-                  
                 />
                  {errors.email && <div className="text-red-400 text-xs">{errors.email.message}</div>}
               </div>
@@ -95,7 +95,10 @@ const Signin = () => {
                 bgcolor="#fff"
                 withIcon
                 Icon={GoogleIcon}
+                type="button"
                 classNames="text-black border border-[#CDCDCD]"
+                onClick={handleGoogleLogin}
+
               />
             </div>
 

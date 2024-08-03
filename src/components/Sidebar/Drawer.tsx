@@ -1,19 +1,4 @@
 // /* eslint-disable @typescript-eslint/no-explicit-any */
-// import {
-//   Box,
-//   Divider,
-//   List,
-//   ListItem,
-//   ListItemButton,
-//   ListItemIcon,
-//   ListItemText,
-// } from "@mui/material";
-// interface ICON {
-//   name: string;
-//   icon: any;
-//   Drop?: any;
-// }
-
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import KeyboardArrowDownOutlinedIcon from "@mui/icons-material/KeyboardArrowDownOutlined";
 import SaveAsSharpIcon from "@mui/icons-material/SaveAsSharp";
@@ -28,7 +13,7 @@ import SidebarItemDropdown from "./SidebarItemDropdown";
 const Drawer = () => {
   // fixed top-0 bottom-0 overflow-y-scroll
   return (
-    <aside className="md:w-[25%] border-r min-h-full bg-white">
+    <aside className="md:w-[25%] border-r min-h-screen bg-white">
       <div className="py-2">
         <SidebarItem
           Icon={DashboardOutlinedIcon}
@@ -66,7 +51,7 @@ const Drawer = () => {
           menu="Community"
           items={[
             { title: "Communities", to: "/communities" },
-            { title: "Discussions", to: "/Discussions" },
+            { title: "Discussions", to: "/discussions" },
           ]}
         />
 

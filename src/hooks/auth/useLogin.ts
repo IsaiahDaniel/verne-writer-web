@@ -19,17 +19,11 @@ const useLogin = () => {
     const { mutate, isPending, isSuccess } = useMutation({
         mutationFn: (formData: any) => login(formData),
         onSuccess: (data) => {
-            console.log("login data", data);
-            // const { data: registerData } = data;
-            // console.log("registerData", registerData);
             setUser(data.data.data);
             setToken(data.data.token);
             navigate("/dashboard");
         },
         onError: (error: any) => {
-            console.log("error login 123", error);
-            // removeUser();
-            // console.log("activation error", error);
             handleError(error);
         }
     });

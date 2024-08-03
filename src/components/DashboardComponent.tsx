@@ -9,7 +9,9 @@ import LineGraphIcon from "../assets/icons/LineGraph"
 import CreatePublication from "../components/CreatePublication";
 import { Link, useNavigate } from "react-router-dom";
 
-const DashboardComponent = () => {
+
+
+const DashboardComponent = ({ username }: { username: string }) => {
   const CARDS_CONTENT = [
     {
       id: 1,
@@ -75,10 +77,12 @@ const DashboardComponent = () => {
 
   const navigate = useNavigate();
 
+  
+
   return (
     <main className="p-5">
       <div className="flex items-center justify-between mt-[10px]">
-        <h2 className="text-3xl font-medium">Welcome Dami!!!</h2>
+        <h2 className="text-3xl font-medium">Welcome {username}</h2>
         <div className="flex cursor-pointer">
           <CreatePublication />
         </div>
@@ -101,8 +105,8 @@ const DashboardComponent = () => {
         ))}
       </div>
 
-      <div className="flex gap-2 mt-5">
-        <Card classNames="w-[700px] w-[450px]">
+      <div className="flex justify-between gap-2 mt-5">
+        <Card classNames="w-[700px] flex-1 w-[450px]">
           {GRAPH_CONTENT.map((graph) => (
             <div className="flex flex-col">
               <div className="flex justify-between">
